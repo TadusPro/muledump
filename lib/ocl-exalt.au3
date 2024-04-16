@@ -329,7 +329,6 @@ $password = _HexToString($data[2])
 
 ;; if parameters were passed we will parse them into the runtime config
 If UBound($data) == 4 and $config.Item("params") == "true" Then
-
     $params = StringSplit($data[3], $config.Item("paramseparator"))
     If IsArray($params) Then
 
@@ -357,6 +356,7 @@ If UBound($data) == 4 and $config.Item("params") == "true" Then
     EndIf
 EndIf
 
+
 ;;  obtain admin privileges if enabled
 _GetAdminRights()
 
@@ -372,11 +372,15 @@ EndIf
 Global $pid = 0
 If $config.Item("mode") == "exalt" Then
 
+    ;; If no path is provided then we will use the default path
+    If StringInStr($config.Item("path"), "%USERPROFILE%") > 0 Then
+        $config.Item("path") = StringReplace($config.Item("path"), "%USERPROFILE%", @UserProfileDir)
+    EndIf
+
     If $config.Item("params") == "true" and $config.Item("paramsecurity") == "true" Then
 
         Local $result
 
-        ;;  the exe has a particular filename
         $result = StringRegExp($config.Item("path"), "^[a-zA-Z]:\\[a-zA-Z0-9-_\\]*?RotMG Exalt\.exe$");
         If @error or $result == 0 Then _error("Invalid path provided: " & $config.Item("path") & @CRLF & @CRLF & "If the value is correct then try disabling param security in the au3 file config.")
 
@@ -387,8 +391,8 @@ If $config.Item("mode") == "exalt" Then
         ;;  password should be valid base64
         ;; $result = StringRegExp($password, "^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$");
         ;; If @error or $result == 0 Then _error("Invalid password provided. " & @CRLF & @CRLF & "If the value is correct then try disabling param security in the au3 file config.")
-
     EndIf
+
 
     $args = _GetLoginData($username, $password, $CmdLine[2])
     $pid = ShellExecute($config.Item("path"), $args, "c:\")
