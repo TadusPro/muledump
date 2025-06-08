@@ -555,11 +555,6 @@ table.chars {
     display: none;
 }
 
-.wawawa .perfect { color: #fcdf00; }
-.wawawa .good { color: #90ff90; }
-.wawawa .great { color: #00ff00; }
-.wawawa .bad { color: #ff0000; }
-
 #fix {
     display: block;
     position: sticky;
@@ -571,11 +566,6 @@ table.chars {
     background-color: rgba(44,44,44,0.75);
     box-shadow: 2px 2px 8px rgba(0,0,0,0.4);
 }
-
-.wawawa .perfect { color: #fcdf00; }
-.wawawa .good { color: #90ff90; }
-.wawawa .great { color: #00ff00; }
-.wawawa .bad { color: #ff0000; }
 
 #options {
     z-index: 1000;
